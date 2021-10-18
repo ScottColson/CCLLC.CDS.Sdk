@@ -17,6 +17,7 @@
     </dependencies>
   </metadata>
   <files>   
-    <file src="..\CCLLC.CDS.Sdk.Instrumented\**\*.cs" target="content/App_Packages/CCLLC.CDS.Sdk.Instrumented.1.4.0/" />
+    <file src="..\CCLLC.CDS.Sdk.Instrumented\*.cs" target="content/App_Packages/CCLLC.CDS.Sdk.Instrumented.$version$/" />
+    <file src="..\CCLLC.CDS.Sdk.Instrumented\Interfaces\*.cs" target="content/App_Packages/CCLLC.CDS.Sdk.Instrumented.$version$/Interfaces" />
   </files>
 </package>

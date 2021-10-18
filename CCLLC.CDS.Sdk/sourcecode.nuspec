@@ -18,6 +18,10 @@
     </dependencies>
   </metadata>
   <files>   
-    <file src="..\CCLLC.CDS.Sdk\**\*.cs" target="content/App_Packages/CCLLC.CDS.Sdk.$version$/" />
+    <file src="..\CCLLC.CDS.Sdk\*.cs" target="content/App_Packages/CCLLC.CDS.Sdk.$version$/" />
+    <file src="..\CCLLC.CDS.Sdk\Enums\*.cs" target="content/App_Packages/CCLLC.CDS.Sdk.$version$/Enums" />
+    <file src="..\CCLLC.CDS.Sdk\Extensions\*.cs" target="content/App_Packages/CCLLC.CDS.Sdk.$version$/Extensions" />
+    <file src="..\CCLLC.CDS.Sdk\Interfaces\*.cs" target="content/App_Packages/CCLLC.CDS.Sdk.$version$/Interfaces" />
+    <file src="..\CCLLC.CDS.Sdk\Registrations\*.cs" target="content/App_Packages/CCLLC.CDS.Sdk.$version$/Registrations" />
   </files>
 </package>
