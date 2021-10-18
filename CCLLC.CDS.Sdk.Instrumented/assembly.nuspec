@@ -1,0 +1,23 @@
+﻿<?xml version="1.0"?>
+<package>
+  <metadata minClientVersion="3.3.0">
+    <id>CCLLC.CDS.Sdk.Instrumented</id>
+    <version>$version$</version>
+    <description>CDS Plugin framework built on the CCLLC.Core.ProcessModel Process Execution Context with Microsoft Applications Insights telemetry via CCLLC.Telemetry.</description>
+    <authors>Colson Code, LLC</authors>
+    <owners>Colson Code, LLC</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/ScottColson/CCLLC.Cds.Sdk</projectUrl>
+    <tags>D365 CDS Plugin</tags>
+    <dependencies>
+      <dependency id="CCLLC.CDS.Sdk" version="1.5.0.1" />
+      <dependency id="CCLLC.Telemetry" version="2.1.2"/>
+      <dependency id="CCLLC.Core.Net.Instrumented" version="1.2.0.2" />
+    </dependencies>     
+  </metadata>
+  <files>
+    <file src="bin\Release\**\CCLLCCdsSdkInstrumented.dll" target="lib" />
+    <file src="bin\Release\**\CCLLCCdsSdkInstrumented.pdb" target="lib" />
+  </files>
+</package>

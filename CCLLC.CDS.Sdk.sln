@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCLLC.CDS.Sdk", "CCLLC.CDS.Sdk\CCLLC.CDS.Sdk.csproj", "{C58F1343-E484-4EED-AB9D-8FE16064E103}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCLLC.CDS.Sdk.Instrumented", "CCLLC.CDS.Sdk.Instrumented\CCLLC.CDS.Sdk.Instrumented.csproj", "{41A3FB12-DF71-4F12-AD18-E0FD0AAFF07A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C58F1343-E484-4EED-AB9D-8FE16064E103}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C58F1343-E484-4EED-AB9D-8FE16064E103}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C58F1343-E484-4EED-AB9D-8FE16064E103}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C58F1343-E484-4EED-AB9D-8FE16064E103}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41A3FB12-DF71-4F12-AD18-E0FD0AAFF07A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41A3FB12-DF71-4F12-AD18-E0FD0AAFF07A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41A3FB12-DF71-4F12-AD18-E0FD0AAFF07A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41A3FB12-DF71-4F12-AD18-E0FD0AAFF07A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F4CC76B0-B9D5-48E1-A4E9-0F233A6A256A}
+	EndGlobalSection
+EndGlobal
