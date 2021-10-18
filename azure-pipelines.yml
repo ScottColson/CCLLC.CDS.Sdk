@@ -1,0 +1,87 @@
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+name: '$(Build.SourceBranchName)$(rev:.r)'
+
+trigger:
+- release/*
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/**.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  Version.Revision: '$(Build.SourceBranchName)'
+  Version.Formatted: '$(Build.BuildNumber)'
+
+steps:
+- task: NuGetToolInstaller@1
+      
+- task: NuGetCommand@2
+  displayName: 'NuGet Solution Restore'
+  inputs:
+    command: 'restore'
+    restoreSolution: '$(solution)'
+    feedsToUse: 'select'
+    vstsFeed: 'a7d65a82-d7f9-47d1-8ba7-67494a34d32f'
+
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    msbuildArgs: '/p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\\"'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: VSTest@2
+  inputs:
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: NuGetCommand@2  
+  displayName: 'Pack Source'
+  condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/heads/release'))
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/sourcecode.nuspec'
+    versioningScheme: 'byEnvVar'
+    versionEnvVar: 'Version.Formatted'
+
+- task: NuGetCommand@2
+  displayName: 'Pack Assembly'
+  condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/heads/release'))
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/assembly.nuspec'
+    versioningScheme: 'byEnvVar'
+    versionEnvVar: 'Version.Formatted'
+
+- task: NuGetAuthenticate@0
+  displayName: 'NuGet Authenticate'
+  condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/heads/release'))
+
+- task: NuGetCommand@2
+  displayName: 'NuGet Push Artifact Packages'
+  condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/heads/release'))
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'Colson Code Nuget'
+
+- task: CopyFiles@2
+  displayName: 'Copy DevOps Artifacts to Artifact Staging'
+  condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/heads/release'))
+  inputs:
+    sourceFolder: '$(Build.SourcesDirectory)'
+    contents: 'DeploymentPackage/temp/packed/?(*.zip)'
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+    flattenFolders: true
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Build Artifacts to Pipeline'
+  condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/heads/release'))
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
