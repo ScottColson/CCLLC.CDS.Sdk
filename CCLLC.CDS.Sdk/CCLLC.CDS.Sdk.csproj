@@ -69,7 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CDSExecutionContext.cs" />
-    <Compile Include="CDSExecutionContextFactory.cs" />
+    <Compile Include="CDSPluginExecutionContextFactory.cs" />
     <Compile Include="CDSPlugin.cs" />
     <Compile Include="CDSPluginExecutionContext.cs" />
     <Compile Include="EnhancedOrganizationService.cs" />
@@ -78,7 +78,7 @@
     <Compile Include="Extensions\OrganizationExtensions.cs" />
     <Compile Include="Extensions\ProcessModelExtension.cs" />
     <Compile Include="Interfaces\ICDSExecutionContext.cs" />
-    <Compile Include="Interfaces\ICDSExecutionContextFactory.cs" />
+    <Compile Include="Interfaces\ICDSPluginExecutionContextFactory.cs" />
     <Compile Include="Interfaces\ICDSPlugin.cs" />
     <Compile Include="Interfaces\ICDSPluginExecutionContext.cs" />
     <Compile Include="Interfaces\IEnhancedOrganizationService.cs" />

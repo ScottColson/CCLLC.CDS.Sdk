@@ -65,7 +65,7 @@ namespace CCLLC.CDS.Sdk
             this.FlushTelemetryAfterExecution = false;
             
             // Dependencies for instrumented execution context.
-            Container.Implement<IInstrumentedCDSExecutionContextFactory<IInstrumentedCDSPluginExecutionContext>>().Using<InstrumentedCDSExecutionContextFactory>().AsSingleInstance();
+            Container.Implement<IInstrumentedCDSPluginExecutionContextFactory<IInstrumentedCDSPluginExecutionContext>>().Using<InstrumentedCDSPluginExecutionContextFactory>().AsSingleInstance();
             Container.Implement<IInstrumentedWebRequestFactory>().Using<InstrumenetedWebRequestFactory>().AsSingleInstance();
 
             // Telemetry issue event logger. Use inert logger for plugins because we don't have
@@ -192,7 +192,7 @@ namespace CCLLC.CDS.Sdk
 
                     if (matchingRegistrations.Any())
                     {
-                        var factory = Container.Resolve<IInstrumentedCDSExecutionContextFactory<IInstrumentedCDSPluginExecutionContext>>();
+                        var factory = Container.Resolve<IInstrumentedCDSPluginExecutionContextFactory<IInstrumentedCDSPluginExecutionContext>>();
 
                         using (var cdsExecutionContext = factory.CreateCDSExecutionContext(executionContext, serviceProvider, this.Container, telemetryClient))
                         {

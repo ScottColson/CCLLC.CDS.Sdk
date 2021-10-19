@@ -9,7 +9,7 @@ namespace CCLLC.CDS.Sdk
     /// <summary>
     /// Factory for generating <see cref="InstrumentedCDSPluginExecutionContext"/>.
     /// </summary>
-    public class InstrumentedCDSExecutionContextFactory : IInstrumentedCDSExecutionContextFactory<IInstrumentedCDSPluginExecutionContext>
+    public class InstrumentedCDSPluginExecutionContextFactory : IInstrumentedCDSPluginExecutionContextFactory<IInstrumentedCDSPluginExecutionContext>
     {  
         public IInstrumentedCDSPluginExecutionContext CreateCDSExecutionContext(IExecutionContext executionContext, IServiceProvider serviceProvider, IIocContainer container, IComponentTelemetryClient telemetryClient)
         {

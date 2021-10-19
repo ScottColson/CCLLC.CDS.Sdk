@@ -1,15 +1,14 @@
-﻿using System;
-using Microsoft.Xrm.Sdk;
-
-namespace CCLLC.CDS.Sdk
+﻿namespace CCLLC.CDS.Sdk
 {
+    using System;
     using CCLLC.Core;
-
+    using Microsoft.Xrm.Sdk;
+    
     /// <summary>
-    /// Factor for creating an enhanced CDS execution context based on <see cref="ICDSExecutionContext"/>.
+    /// Factory for creating an enhanced CDS execution context based on <see cref="ICDSPluginExecutionContext"/>.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface ICDSExecutionContextFactory<T> where T :  ICDSExecutionContext
+    public interface ICDSPluginExecutionContextFactory<T> where T :  ICDSPluginExecutionContext
     {
         /// <summary>
         /// Factory create method.

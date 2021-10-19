@@ -1,0 +1,22 @@
+﻿<?xml version="1.0"?>
+<package>
+  <metadata minClientVersion="3.3.0">
+    <id>CCLLC.CDS.Sdk.Workflow</id>
+    <version>$version$</version>
+    <description>CDS Workflow Activity framework built on the Process Execution Model.</description>
+    <authors>Colson Code, LLC</authors>
+    <owners>Colson Code, LLC</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/ScottColson/CCLLC.CDS.Sdk</projectUrl>
+    <tags>D365 CDS Plugin</tags>
+    <dependencies>
+      <dependency id="CCLLC.CDS.Sdk" version="$version$" />
+      <dependency id="Microsoft.CrmSdk.Workflow" version="9.0.2.20" />
+    </dependencies>      
+  </metadata>
+  <files>
+    <file src="bin\Release\**\CCLLCCdsSdkWorkflow.dll" target="lib" />
+    <file src="bin\Release\**\CCLLCCdsSdkWorkflow.pdb" target="lib" />
+  </files>
+</package>

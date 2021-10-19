@@ -1,16 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Linq;
-using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Query;
+
 
 namespace CCLLC.CDS.Sdk
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Globalization;
+    using System.Linq;
     using CCLLC.Core;
     using CCLLC.Core.Net;
- 
+    using Microsoft.Xrm.Sdk;
+    using Microsoft.Xrm.Sdk.Query;  
 
     /// <summary>
     /// Base plugin class for plugins using <see cref="ICDSPlugin"/> functionality. This class does not provide
@@ -82,7 +82,7 @@ namespace CCLLC.CDS.Sdk
             Container.Implement<ISettingsProviderDataConnector>().Using<EnvironmentVariablesDataConnector>().AsSingleInstance();
             Container.Implement<IXmlConfigurationResourceFactory>().Using<XmlConfigurationResourceFactory>().AsSingleInstance();
             Container.Implement<IWebRequestFactory>().Using<WebRequestFactory>().AsSingleInstance();
-            Container.Implement<ICDSExecutionContextFactory<ICDSPluginExecutionContext>>().Using<CDSExecutionContextFactory>().AsSingleInstance();
+            Container.Implement<ICDSPluginExecutionContextFactory<ICDSPluginExecutionContext>>().Using<CDSPluginExecutionContextFactory>().AsSingleInstance();
         }
 
         /// <summary>
@@ -238,8 +238,7 @@ namespace CCLLC.CDS.Sdk
         /// </remarks>
         public virtual void Execute(IServiceProvider serviceProvider)
         {
-            if (serviceProvider == null)
-                throw new ArgumentNullException("serviceProvider");
+            _ = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
             var tracingService = (ITracingService)serviceProvider.GetService(typeof(ITracingService));
             tracingService.Trace(string.Format(CultureInfo.InvariantCulture, "Entering {0}.Execute()", this.GetType().ToString()));
@@ -255,7 +254,7 @@ namespace CCLLC.CDS.Sdk
 
                 if (matchingRegistrations.Any())
                 {
-                    var factory = Container.Resolve<ICDSExecutionContextFactory<ICDSPluginExecutionContext>>();
+                    var factory = Container.Resolve<ICDSPluginExecutionContextFactory<ICDSPluginExecutionContext>>();
 
                     using (var cdsExecutionContext = factory.CreateCDSExecutionContext(executionContext, serviceProvider, this.Container, this.RunAs))
                     {

@@ -5,7 +5,7 @@ namespace CCLLC.CDS.Sdk
 {
     using CCLLC.Core;
 
-    public class CDSExecutionContextFactory : ICDSExecutionContextFactory<ICDSPluginExecutionContext>
+    public class CDSPluginExecutionContextFactory : ICDSPluginExecutionContextFactory<ICDSPluginExecutionContext>
     {             
         public ICDSPluginExecutionContext CreateCDSExecutionContext(IExecutionContext executionContext, IServiceProvider serviceProvider, IIocContainer container, eRunAs runAs = eRunAs.User)
         {

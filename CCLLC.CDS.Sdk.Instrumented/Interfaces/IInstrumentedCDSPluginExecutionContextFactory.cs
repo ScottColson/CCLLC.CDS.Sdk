@@ -6,7 +6,7 @@ namespace CCLLC.CDS.Sdk
     using CCLLC.Core;
     using CCLLC.Telemetry;
 
-    public interface IInstrumentedCDSExecutionContextFactory<T> where T :  IInstrumentedCDSExecutionContext
+    public interface IInstrumentedCDSPluginExecutionContextFactory<T> where T :  IInstrumentedCDSPluginExecutionContext
     {
         T CreateCDSExecutionContext(IExecutionContext executionContext, IServiceProvider serviceProvider, IIocContainer container, IComponentTelemetryClient telemetryClient );
     }
