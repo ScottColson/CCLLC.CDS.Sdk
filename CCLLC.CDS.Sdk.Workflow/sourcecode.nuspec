@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0"?>
 <package>
   <metadata minClientVersion="3.3.0">
-    <id>CCLLC.CDS.Sdk.Sources</id>
+    <id>CCLLC.CDS.Sdk.Workflow.Sources</id>
     <version>$version$</version>
     <description>CDS Plugin framework built on the Process Execution Model.</description>
     <authors>Colson Code, LLC</authors>
