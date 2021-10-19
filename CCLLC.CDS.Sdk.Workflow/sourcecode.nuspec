@@ -16,7 +16,7 @@
     </dependencies>
   </metadata>
   <files>   
-    <file src="..\CCLLC.CDS.Sdk\*.cs" target="content/App_Packages/CCLLC.CDS.Sdk.Workflow.$version$/" />
-    <file src="..\CCLLC.CDS.Sdk\Interfaces\*.cs" target="content/App_Packages/CCLLC.CDS.Sdk.Workflow.$version$/Interfaces" />
+    <file src="..\CCLLC.CDS.Sdk.Workflow\*.cs" target="content/App_Packages/CCLLC.CDS.Sdk.Workflow.$version$/" />
+    <file src="..\CCLLC.CDS.Sdk.Workflow\Interfaces\*.cs" target="content/App_Packages/CCLLC.CDS.Sdk.Workflow.$version$/Interfaces" />
   </files>
 </package>
