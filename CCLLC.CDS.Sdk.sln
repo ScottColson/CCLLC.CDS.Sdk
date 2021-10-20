@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCLLC.CDS.Sdk.Workflow", "C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCLLC.CDS.Sdk.Workflow.Instrumented", "CCLLC.CDS.Sdk.Workflow.Instrumented\CCLLC.CDS.Sdk.Workflow.Instrumented.csproj", "{9FE21AC5-9F4D-414E-AD1F-4EA938C21D2F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.WorkflowActivity", "Sample.WorkflowActivity\Sample.WorkflowActivity.csproj", "{4AD479A2-0BB9-423D-94A5-BB79449C259C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{9FE21AC5-9F4D-414E-AD1F-4EA938C21D2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FE21AC5-9F4D-414E-AD1F-4EA938C21D2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FE21AC5-9F4D-414E-AD1F-4EA938C21D2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AD479A2-0BB9-423D-94A5-BB79449C259C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AD479A2-0BB9-423D-94A5-BB79449C259C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AD479A2-0BB9-423D-94A5-BB79449C259C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AD479A2-0BB9-423D-94A5-BB79449C259C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
