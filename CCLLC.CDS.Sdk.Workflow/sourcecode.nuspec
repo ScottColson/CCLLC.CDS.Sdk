@@ -12,7 +12,7 @@
     <tags>D365 CDS Plugin</tags>
     <dependencies>
       <dependency id="CCLLC.CDS.Sdk.Sources" version="$version$" />
-      <dependency id="Microsoft.CrmSdk.Workflow" version="9.0.2.20" />
+      <dependency id="Microsoft.CrmSdk.Workflow" version="9.0.2.42" />
     </dependencies>
   </metadata>
   <files>   
