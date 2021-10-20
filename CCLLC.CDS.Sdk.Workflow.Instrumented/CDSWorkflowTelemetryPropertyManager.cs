@@ -2,17 +2,17 @@
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Workflow;
 
-namespace CCLLC.Xrm.Sdk.Workflow.Telemetry
+namespace CCLLC.CDS.Sdk
 {
-    public class ExecutionContextPropertyManager : IXrmTelemetryPropertyManager
-    {
+    public class CDSWorkflowTelemetryPropertyManager : ICDSWorkflowTelemetryPropertyManager
+    {        
         /// <summary>
         /// Create properties based on the workflow execution context.
         /// </summary>
         /// <param name="className"></param>
         /// <param name="executionContext"></param>
         /// <returns></returns>
-        public virtual IDictionary<string, string> CreateXrmPropertiesDictionary(string className, IExecutionContext executionContext)
+        public virtual IDictionary<string, string> CreatePropertiesDictionary(string className, IExecutionContext executionContext)
         {
             var properties =  new Dictionary<string, string>{
                 { "source", className },
