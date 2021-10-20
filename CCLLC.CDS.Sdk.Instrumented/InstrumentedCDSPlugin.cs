@@ -75,7 +75,7 @@ namespace CCLLC.CDS.Sdk
             // Setup the objects needed to create/capture telemetry items.
             Container.Implement<ITelemetryFactory>().Using<TelemetryFactory>().AsSingleInstance();  //ITelemetryFactory is used to create new telemetry items.
             Container.Implement<ITelemetryClientFactory>().Using<TelemetryClientFactory>().AsSingleInstance(); //ITelemetryClientFactory is used to create and configure a telemetry client.
-            Container.Implement<ICDSTelemetryPropertyManager>().Using<ExecutionContextPropertyManager>().AsSingleInstance(); //Plugin property manager.
+            Container.Implement<ICDSPluginTelemetryPropertyManager>().Using<CDSPluginTelemetryPropertyManager>().AsSingleInstance(); //Plugin property manager.
             Container.Implement<ITelemetryContext>().Using<TelemetryContext>(); //ITelemetryContext is a dependency for telemetry creation.
             Container.Implement<ITelemetryInitializerChain>().Using<TelemetryInitializerChain>(); //ITelemetryInitializerChain is a dependency for building a telemetry client.
 

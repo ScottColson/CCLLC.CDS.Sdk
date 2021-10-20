@@ -102,11 +102,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExecutionContextPropertyManager.cs" />
+    <Compile Include="CDSPluginTelemetryPropertyManager.cs" />
     <Compile Include="InstrumentedCDSExecutionContext.cs" />
     <Compile Include="InstrumentedCDSPluginExecutionContextFactory.cs" />
     <Compile Include="InstrumentedCDSPlugin.cs" />
     <Compile Include="InstrumentedCDSPluginExecutionContext.cs" />
+    <Compile Include="Interfaces\ICDSPluginTelemetryPropertyManager - Copy.cs" />
     <Compile Include="Interfaces\ICDSTelemetryPropertyManager.cs" />
     <Compile Include="Interfaces\IInstrumenetedCDSPlugin.cs" />
     <Compile Include="Interfaces\IInstrumentedCDSExecutionContext.cs" />

@@ -7,7 +7,7 @@ namespace CCLLC.CDS.Sdk
     /// Creates a list of telemetry properties based on the execution context information. This data
     /// provides additional meta information about logged telemetry.
     /// </summary>
-    public class ExecutionContextPropertyManager : ICDSTelemetryPropertyManager
+    public class CDSPluginTelemetryPropertyManager : ICDSPluginTelemetryPropertyManager
     {
         /// <summary>
         /// Create properties
