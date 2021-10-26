@@ -44,9 +44,9 @@ namespace CCLLC.CDS.Sdk
 
             if (Stage == ePluginStage.PostOperation) 
             {
-                var response = ((Entity)(executionContext.OutputParameters["Entity"])).ToEntity<E>();
+                var response = ((Entity)(executionContext.OutputParameters["BusinessEntity"])).ToEntity<E>();
                 PluginAction.Invoke(executionContext, target, columnSet, response);
-                executionContext.OutputParameters["Entity"] = response;
+                executionContext.OutputParameters["BusinessEntity"] = response.ToEntity<Entity>() ;
             }
             else
             {

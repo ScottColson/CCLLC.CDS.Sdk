@@ -101,7 +101,7 @@
             var telemetryClientFactory = Container.Resolve<ITelemetryClientFactory>();
 
             //Create a dictionary of custom telemetry properties based on values in the execution context.
-            var propertyManager = Container.Resolve<ICDSTelemetryPropertyManager>();
+            var propertyManager = Container.Resolve<ICDSWorkflowTelemetryPropertyManager>();
             var properties = propertyManager.CreatePropertiesDictionary(this.GetType().ToString(), executionContext);
 
             //generate a telemetry client capturing all execution context information. Values
