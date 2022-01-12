@@ -39,6 +39,12 @@ namespace CCLLC.CDS.Sdk
         /// </summary>
         public string DefaultInstrumentationKey { get; set; }
 
+        /// <summary>
+        /// Sets the name of the variable that holds the telemetry instrumentation key. If not set, then 
+        /// it will default to "Telemetry.InstrumentationKey"
+        /// </summary>
+        public string InstrumentationVariableName { get; protected set; }
+
         private static ITelemetrySink telemetrySink;
         /// <summary>
         /// Provides a <see cref="ITelemetrySink"/> to receive and process various 
@@ -104,8 +110,9 @@ namespace CCLLC.CDS.Sdk
         {
             if (cdsExecutionContext != null)
             {
-                var key = cdsExecutionContext.Settings.GetValue<string>("Telemetry.InstrumentationKey",this.DefaultInstrumentationKey);
-               
+                var variableName = InstrumentationVariableName ?? "Telemetry.InstrumentationKey";
+                var key = cdsExecutionContext.Settings.GetValue<string>(variableName, DefaultInstrumentationKey);
+
                 if (!string.IsNullOrEmpty(key))
                 {
                     TelemetrySink.ProcessChain.TelemetryProcessors.Add(new SequencePropertyProcessor());
