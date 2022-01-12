@@ -14,5 +14,7 @@ namespace CCLLC.CDS.Sdk
         bool FlushTelemetryAfterExecution { get; set; }
 
         string DefaultInstrumentationKey { get; set; }
+
+        string InstrumentationVariableName { get; }
     }
 }
