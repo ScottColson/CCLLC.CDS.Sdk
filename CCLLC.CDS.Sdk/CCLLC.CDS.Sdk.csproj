@@ -100,6 +100,10 @@
     <Compile Include="CDSPluginExecutionContextFactory.cs" />
     <Compile Include="CDSPlugin.cs" />
     <Compile Include="CDSPluginExecutionContext.cs" />
+    <Compile Include="Interfaces\ICDSSecurity.cs" />
+    <Compile Include="Security\CDSSecurity_UserAccessRights.cs" />
+    <Compile Include="Security\CDSSecurity_UserRoleAssignments.cs" />
+    <Compile Include="Security\CDSSecurity_UserTeamAssignments.cs" />
     <Compile Include="EnhancedOrganizationService.cs" />
     <Compile Include="Enums\eRunAs.cs" />
     <Compile Include="EnvironmentVariablesDataConnector.cs" />
@@ -123,6 +127,7 @@
     <Compile Include="Registrations\QueryEventRegistration.cs" />
     <Compile Include="Registrations\RetrieveEventRegistration.cs" />
     <Compile Include="Registrations\UpdateEventRegistration.cs" />
+    <Compile Include="Security\CDSSecurity.cs" />
     <Compile Include="XmlConfigurationResource.cs" />
     <Compile Include="XmlConfigurationResourceFactory.cs" />
   </ItemGroup>

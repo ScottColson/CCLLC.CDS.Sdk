@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.Xrm.Sdk;
-
-namespace CCLLC.CDS.Sdk
+﻿namespace CCLLC.CDS.Sdk
 {
+    using System;
     using CCLLC.Core;
     using CCLLC.Core.Net;
+    using Microsoft.Xrm.Sdk;
 
     /// <summary>
     /// Provides and enhanced execution context that is compatible with the <see cref="IExecutionContext"/> provided by the 
@@ -36,8 +35,11 @@ namespace CCLLC.CDS.Sdk
         /// <summary>
         /// Returns a standard <see cref="ITracingService"/> service.
         /// </summary>
-        ITracingService TracingService { get;  }    
-        
+        ITracingService TracingService { get;  }
+
+
+        ICDSSecurity Security { get; }
+
         /// <summary>
         /// Returns a <see cref="IXmlConfigurationResource"/> service that allows code to read in XML configuration data
         /// from an XML web resource.
