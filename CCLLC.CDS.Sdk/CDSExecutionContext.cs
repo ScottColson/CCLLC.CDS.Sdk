@@ -128,8 +128,23 @@ namespace CCLLC.CDS.Sdk
                 return settings;
             }
         }
-        
-      
+
+
+        private ICDSSecurity security = null;
+
+        public ICDSSecurity Security
+        {
+            get 
+            { 
+                if (security is null)
+                {
+                    security = new Security.CDSSecurity(ElevatedOrganizationService, Cache);
+                }
+
+                return security;
+            }
+        }
+
         private IXmlConfigurationResource xmlConfigurationResources = null;
         /// <summary>
         /// Access to configuration resources stored in CRM XML Data Web Resources.
