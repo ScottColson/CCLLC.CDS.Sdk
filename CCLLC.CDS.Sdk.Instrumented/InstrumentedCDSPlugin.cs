@@ -20,6 +20,8 @@ namespace CCLLC.CDS.Sdk
     /// </summary>
     public abstract class InstrumentedCDSPlugin : CDSPlugin, IInstrumenetedCDSPlugin
     {
+        private static readonly object sinkLock = new object();
+
         /// <summary>
         /// Flag to capture execution performance metrics using request telemetry. Defaults to true.
         /// </summary>
@@ -148,8 +150,7 @@ namespace CCLLC.CDS.Sdk
 
             // Setup sink if it has not already been done. This is done here to cover the possibility that an implementing class might override
             // the default, non-static, property implementation.
-            var lockObj = new object();
-            lock (lockObj)
+            lock (sinkLock)
             {
                 if (TelemetrySink is null)
                 {
@@ -203,10 +204,13 @@ namespace CCLLC.CDS.Sdk
 
                         using (var cdsExecutionContext = factory.CreateCDSExecutionContext(executionContext, serviceProvider, this.Container, telemetryClient))
                         {
-                            if (!TelemetrySink.IsConfigured)
+                            lock (sinkLock)
                             {
-                                TelemetrySink.OnConfigure = () => { return this.ConfigureTelemetrySink(cdsExecutionContext); };
-                            }
+                                if (!TelemetrySink.IsConfigured)
+                                {
+                                    TelemetrySink.OnConfigure = () => { return this.ConfigureTelemetrySink(cdsExecutionContext); };
+                                }
+                            }                            
 
                             foreach (var registration in matchingRegistrations)
                             {
