@@ -1,6 +1,9 @@
 ﻿using System;
 using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk.Messages;
+using Microsoft.Xrm.Sdk.Metadata;
 using Microsoft.Xrm.Sdk.Query;
+
 
 namespace CCLLC.CDS.Sdk
 {
@@ -321,6 +324,38 @@ namespace CCLLC.CDS.Sdk
 
             return req;
         }
+
+        public EntityMetadata GetEntityMetadata(string logicalName, EntityFilters entityFilters = EntityFilters.All, TimeSpan? cacheTimeout = null)
+        {
+            _ = logicalName ?? throw new ArgumentNullException(nameof(logicalName));
+            
+            var cacheKey = $"CCLLC.CDS.GetEntityMetaData.{logicalName}.{(int)entityFilters}";
+
+            if (Cache != null
+                && cacheTimeout != null
+                && Cache.Exists(cacheKey))
+            {
+                return Cache.Get<EntityMetadata>(cacheKey);
+            }
+
+            var request = new RetrieveEntityRequest
+            {
+                LogicalName = logicalName,
+                RetrieveAsIfPublished = false,
+                EntityFilters = entityFilters
+            };
+
+            var response = (RetrieveEntityResponse)ElevatedOrganizationService.Execute(request);
+            var metaData = response.EntityMetadata;
+
+            if (Cache != null && metaData != null && cacheTimeout != null)
+            {
+                Cache.Add<EntityMetadata>(cacheKey, metaData, cacheTimeout.Value);
+            }
+
+            return metaData;
+        }
+
 
         /// <summary>
         /// Retrieves a single entity record as early bound type T,  containing all fields and optionally 

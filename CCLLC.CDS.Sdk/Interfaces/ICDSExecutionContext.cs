@@ -4,6 +4,7 @@
     using CCLLC.Core;
     using CCLLC.Core.Net;
     using Microsoft.Xrm.Sdk;
+    using Microsoft.Xrm.Sdk.Metadata;
 
     /// <summary>
     /// Provides and enhanced execution context that is compatible with the <see cref="IExecutionContext"/> provided by the 
@@ -90,5 +91,13 @@
         /// <param name="cacheTimeout"></param>
         /// <returns></returns>
         T GetRecord<T>(EntityReference recorddId, string[] columns, TimeSpan? cacheTimeout = null) where T : Entity;
+
+        /// <summary>
+        /// Get all entity meta-data for the requested entity logical name and optionally cache it.
+        /// </summary>
+        /// <param name="logicalName"></param>
+        /// <param name="cacheTimeout"></param>
+        /// <returns></returns>
+        EntityMetadata GetEntityMetadata(string logicalName, EntityFilters entityFilters = EntityFilters.All, TimeSpan? cacheTimeout = null);
     }
 }
