@@ -1,45 +1,64 @@
-﻿using Microsoft.Xrm.Sdk;
-using System;
-
-namespace CCLLC.CDS.Sdk
+﻿namespace CCLLC.CDS.Sdk.Registrations
 {
-    public class UpdateEventRegistration<E> : IPluginEventRegistration where E : Entity, new()
-    {
-        private string handlerId;
-        /// <summary>
-        /// Identifying name for the handler. Used in logging events.
-        /// </summary>
-        public string HandlerId
-        {
-            get { return handlerId ?? string.Empty; }
-            set { handlerId = value; }
-        }
+    using System;
+    using System.Linq.Expressions;
+    using Microsoft.Xrm.Sdk;
 
-        /// <summary>
-        /// Execution pipeline stage that the plugin should be registered against.
-        /// </summary>
-        public ePluginStage Stage { get; set; }
-        /// <summary>
-        /// Logical name of the entity that the plugin should be registered against. Leave 'null' to register against all entities.
-        /// </summary>
-        public string EntityName { get; }
-        /// <summary>
-        /// Name of the message that the plugin should be triggered off of.
-        /// </summary>
-        public string MessageName { get; }
+    public class UpdateEventRegistration<E> : EventRegistration, IUpdateRegistrationModifiers<E> where E : Entity, new()
+    {        
 
         public Action<ICDSPluginExecutionContext, E> PluginAction { get; set; }
 
-        public UpdateEventRegistration()
+        public UpdateEventRegistration() 
+            : base(new E().LogicalName, MessageNames.Update)
         {
-            EntityName = new E().LogicalName;
-            MessageName = MessageNames.Update;
         }
 
-        public void Invoke(ICDSPluginExecutionContext executionContext)
+        protected override void InvokeRegistration(ICDSPluginExecutionContext executionContext)
         {
             E target = executionContext.TargetEntity.ToEntity<E>();
             PluginAction.Invoke(executionContext, target);
+        }
+
+        IUpdateRegistrationModifiers<E> IUpdateRegistrationModifiers<E>.ExecuteIf(Action<IUpdateExecutionFilter<E>> expression)
+        {
+            throw new NotImplementedException("The ExecuteIf registration modifier is not implemented.");
+        }
+
+        IUpdateRegistrationModifiers<E> IRegistrationPreImageModifiers<IUpdateRegistrationModifiers<E>, E>.RequirePreImage()
+        {
+            AddPreImageRequirement();
+            return this;
+        }
+
+        IUpdateRegistrationModifiers<E> IRegistrationPreImageModifiers<IUpdateRegistrationModifiers<E>, E>.RequirePreImage(params string[] fields)
+        {
+            AddPreImageRequirement(fields);
+            return this;
+        }
+
+        IUpdateRegistrationModifiers<E> IRegistrationPreImageModifiers<IUpdateRegistrationModifiers<E>, E>.RequirePreImage(Expression<Func<E, object>> anonymousTypeInitializer)
+        {
+            AddPreImageRequirement(anonymousTypeInitializer);
+            return this;
+        }
+
+        IUpdateRegistrationModifiers<E> IRegistrationPostImageModifiers<IUpdateRegistrationModifiers<E>, E>.RequirePostImage()
+        {
+            AddPostImageRequirement();
+            return this;
+        }
+
+        IUpdateRegistrationModifiers<E> IRegistrationPostImageModifiers<IUpdateRegistrationModifiers<E>, E>.RequirePostImage(params string[] fields)
+        {
+            AddPostImageRequirement(fields);
+            return this;
+        }
+
+        IUpdateRegistrationModifiers<E> IRegistrationPostImageModifiers<IUpdateRegistrationModifiers<E>, E>.RequirePostImage(Expression<Func<E, object>> anonymousTypeInitializer)
+        {
+            AddPostImageRequirement(anonymousTypeInitializer);
+            return this;
         }
     }
 }

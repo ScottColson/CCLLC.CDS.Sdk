@@ -99,6 +99,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\AttributeEqualityComparer.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\Condition.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\EntityExtensions.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\EntityProxy.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\EntityReferenceExtensions.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\ExecutableFluentQuery.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\Filter.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\Filterable.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\FluentQuery.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\IAttributeEqualityComparer.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\ICondition.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\IExecutableFluentQuery.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\IFilter.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\IFilterable.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\IFluentQuery.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\IJoinedEntity.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\IQueryEntity.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\IQueryExpressionBuilder.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\JoinedEntity.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\OrganizationServiceExtensions.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\ParameterCollectionExtensions.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\QueryEntity.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\QueryExpressionBuilder.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\QueryExpressionExtensions.cs" />
+    <Compile Include="App_Packages\CCLLC.CDS.Sdk.Data.1.3.0.4\TheLaBarExtensions.cs" />
+    <Compile Include="Proxies\account.cs" />
+    <Compile Include="Proxies\businessunit.cs" />
+    <Compile Include="Proxies\contact.cs" />
+    <Compile Include="Proxies\systemuser.cs" />
+    <Compile Include="Proxies\team.cs" />
+    <Compile Include="SamplePlugin.cs" />
     <Compile Include="SampleWorkflowActivity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

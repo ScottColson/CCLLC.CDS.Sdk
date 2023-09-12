@@ -1,5 +1,3 @@
-
-
 namespace CCLLC.CDS.Sdk
 {
     using System;
@@ -7,6 +5,7 @@ namespace CCLLC.CDS.Sdk
     using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Linq;
+    using CCLLC.CDS.Sdk.Registrations;
     using CCLLC.Core;
     using CCLLC.Core.Net;
     using Microsoft.Xrm.Sdk;
@@ -112,14 +111,18 @@ namespace CCLLC.CDS.Sdk
         /// <param name="stage"></param>
         /// <param name="handler"></param>
         /// <param name="handlerId"></param>
-        public void RegisterCreateHandler<E>(ePluginStage stage, Action<ICDSPluginExecutionContext, E, EntityReference> handler, string handlerId = "") where E : Entity, new()
+        public ICreateRegistrationModifiers<E> RegisterCreateHandler<E>(ePluginStage stage, Action<ICDSPluginExecutionContext, E, EntityReference> handler, string handlerId = "") where E : Entity, new()
         {
-            this._events.Add(new CreateEventRegistration<E>
+            var eventRegistration = new CreateEventRegistration<E>
             {
                 HandlerId = handlerId,
                 Stage = stage,
                 PluginAction = handler
-            });
+            };
+
+            this._events.Add(eventRegistration);
+
+            return eventRegistration;
         }
 
         /// <summary>
@@ -129,14 +132,18 @@ namespace CCLLC.CDS.Sdk
         /// <param name="stage"></param>
         /// <param name="handler"></param>
         /// <param name="handlerId"></param>
-        public void RegisterUpdateHandler<E>(ePluginStage stage, Action<ICDSPluginExecutionContext, E> handler, string handlerId = "") where E : Entity, new()
+        public IUpdateRegistrationModifiers<E> RegisterUpdateHandler<E>(ePluginStage stage, Action<ICDSPluginExecutionContext, E> handler, string handlerId = "") where E : Entity, new()
         {
-            this._events.Add(new UpdateEventRegistration<E>
+            var eventRegistration = new UpdateEventRegistration<E>
             {
                 HandlerId = handlerId,
                 Stage = stage,
                 PluginAction = handler
-            });
+            };
+
+            this._events.Add(eventRegistration);
+
+            return eventRegistration;
         }
 
 
@@ -147,14 +154,18 @@ namespace CCLLC.CDS.Sdk
         /// <param name="stage"></param>
         /// <param name="handler"></param>
         /// <param name="handlerId"></param>
-        public void RegisterDeleteHandler<E>(ePluginStage stage, Action<ICDSPluginExecutionContext, EntityReference> handler, string handlerId = "") where E : Entity, new()
+        public IDeleteRegistrationModifiers<E> RegisterDeleteHandler<E>(ePluginStage stage, Action<ICDSPluginExecutionContext, EntityReference> handler, string handlerId = "") where E : Entity, new()
         {
-            this._events.Add(new DeleteEventRegistration<E>
+            var eventRegistration = new DeleteEventRegistration<E>
             {
                 HandlerId = handlerId,
                 Stage = stage,
                 PluginAction = handler
-            });
+            };
+
+            this._events.Add(eventRegistration);
+
+            return eventRegistration;
         }
 
         /// <summary>
@@ -164,31 +175,39 @@ namespace CCLLC.CDS.Sdk
         /// <param name="stage"></param>
         /// <param name="handler"></param>
         /// <param name="handlerId"></param>
-        public void RegisterRetrieveHandler<E>(ePluginStage stage, Action<ICDSPluginExecutionContext, EntityReference, ColumnSet, E> handler, string handlerId = "") where E : Entity, new()
+        public IRetrieveRegistrationModifiers<TEntity> RegisterRetrieveHandler<TEntity>(ePluginStage stage, Action<ICDSPluginExecutionContext, EntityReference, ColumnSet, TEntity> handler, string handlerId = "") where TEntity : Entity, new()
         {
-            this._events.Add(new RetrieveEventRegistration<E>
+            var eventRegistration = new RetrieveEventRegistration<TEntity>
             {
                 HandlerId = handlerId,
                 Stage = stage,
                 PluginAction = handler
-            });
+            };
+
+            this._events.Add(eventRegistration);
+
+            return eventRegistration;
         }
 
         /// <summary>
         /// Register a new event handler for a retrieve multiple message using early bound entity types.
         /// </summary>
-        /// <typeparam name="E"></typeparam>
+        /// <typeparam name="TEntity"></typeparam>
         /// <param name="stage"></param>
         /// <param name="handler"></param>
         /// <param name="handlerId"></param>
-        public void RegisterQueryHandler<E>(ePluginStage stage, Action<ICDSPluginExecutionContext, QueryExpression, EntityCollection> handler, string handlerId = "") where E : Entity, new()
+        public IQueryRegistrationModifiers<TEntity> RegisterQueryHandler<TEntity>(ePluginStage stage, Action<ICDSPluginExecutionContext, QueryExpression, EntityCollection> handler, string handlerId = "") where TEntity : Entity, new()
         {
-            this._events.Add(new QueryEventRegistration<E>
+            var eventRegistration = new QueryEventRegistration<TEntity>
             {
                 HandlerId = handlerId,
                 Stage = stage,
                 PluginAction = handler
-            });
+            };
+
+            this._events.Add(eventRegistration);
+
+            return eventRegistration;
         }
 
         /// <summary>
@@ -199,16 +218,20 @@ namespace CCLLC.CDS.Sdk
         /// <param name="stage"></param>
         /// <param name="handler"></param>
         /// <param name="handlerId"></param>
-        public void RegisterActionHandler<TRequest, TResponse>(ePluginStage stage, Action<ICDSPluginExecutionContext, TRequest, TResponse> handler, string handlerId = "")
+        public IActionRegistrationModifiers<TRequest> RegisterActionHandler<TRequest, TResponse>(ePluginStage stage, Action<ICDSPluginExecutionContext, TRequest, TResponse> handler, string handlerId = "")
             where TRequest : OrganizationRequest, new()
             where TResponse : OrganizationResponse, new()
         {
-            this._events.Add(new ActionEventRegistration<TRequest, TResponse>
+            var eventRegistration = new ActionEventRegistration<TRequest, TResponse>
             {
                 Stage = stage,
                 HandlerId = handlerId,
                 PluginAction = handler
-            }); ;
+            };
+
+            this._events.Add(eventRegistration);
+
+            return eventRegistration;
         }
 
         /// <summary>
@@ -218,15 +241,19 @@ namespace CCLLC.CDS.Sdk
         /// <typeparam name="TResponse">API response proxy.</typeparam>
         /// <param name="handler">The handler function that will be executed.</param>
         /// <param name="handlerId">Optional handler Id used in some logging operations.</param>
-        public void RegisterApiHandler<TRequest, TResponse>(Action<ICDSPluginExecutionContext, TRequest, TResponse> handler, string handlerId = "")
+        public IApiRegistrationModifiers<TRequest> RegisterApiHandler<TRequest, TResponse>(Action<ICDSPluginExecutionContext, TRequest, TResponse> handler, string handlerId = "")
             where TRequest : OrganizationRequest, new()
             where TResponse : OrganizationResponse, new()
         {
-            this._events.Add(new ApiEventRegistration<TRequest, TResponse>
+            var eventRegistration = new ApiEventRegistration<TRequest, TResponse>
             {
                 HandlerId = handlerId,
                 PluginAction = handler
-            });
+            };
+
+            this._events.Add(eventRegistration);
+
+            return eventRegistration;
         }
 
         /// <summary>

@@ -1,46 +1,21 @@
-﻿using Microsoft.Xrm.Sdk;
-using System;
-
-namespace CCLLC.CDS.Sdk
+﻿namespace CCLLC.CDS.Sdk.Registrations
 {
-    public class CreateEventRegistration<E> : IPluginEventRegistration where E : Entity, new()
+    using System;
+    using System.Linq.Expressions;
+    using Microsoft.Xrm.Sdk;
+
+    public class CreateEventRegistration<TEntity> : EventRegistration, ICreateRegistrationModifiers<TEntity> where TEntity : Entity, new()
     {
-        private string handlerId;
-        /// <summary>
-        /// Identifying name for the handler. Used in logging events.
-        /// </summary>
-        public string HandlerId
-        {
-            get { return handlerId ?? string.Empty; }
-            set { handlerId = value; }
+        public Action<ICDSPluginExecutionContext, TEntity, EntityReference> PluginAction { get; set; }
+
+        public CreateEventRegistration() :
+            base(new TEntity().LogicalName, MessageNames.Create)
+        { 
         }
 
-        /// <summary>
-        /// Execution pipeline stage that the plugin should be registered against.
-        /// </summary>
-        public ePluginStage Stage { get; set; }
-        /// <summary>
-        /// Logical name of the entity that the plugin should be registered against. Leave 'null' to register against all entities.
-        /// </summary>
-        public string EntityName { get; }
-        /// <summary>
-        /// Name of the message that the plugin should be triggered off of.
-        /// </summary>
-        public string MessageName { get; }
-
-        public Action<ICDSPluginExecutionContext, E, EntityReference> PluginAction { get; set; }
-
-        public CreateEventRegistration()
+        protected override void InvokeRegistration(ICDSPluginExecutionContext executionContext)
         {
-            EntityName = new E().LogicalName;
-            MessageName = MessageNames.Create;
-        }
-
-        public void Invoke(ICDSPluginExecutionContext executionContext)
-        {
-            E target = executionContext.TargetEntity.ToEntity<E>();
-
-         
+            TEntity target = executionContext.TargetEntity.ToEntity<TEntity>();         
 
             if (Stage == ePluginStage.PostOperation) 
             {
@@ -52,6 +27,29 @@ namespace CCLLC.CDS.Sdk
             {
                 PluginAction.Invoke(executionContext, target, null);
             }          
+        }
+
+        ICreateRegistrationModifiers<TEntity> ICreateRegistrationModifiers<TEntity>.ExecuteIf(Action<ICreateExecutionFilter<TEntity>> expression)
+        {
+            throw new NotImplementedException("The ExecuteIf registration modifier is not implemented.");
+        }        
+
+        ICreateRegistrationModifiers<TEntity> IRegistrationPostImageModifiers<ICreateRegistrationModifiers<TEntity>, TEntity>.RequirePostImage()
+        {
+            AddPostImageRequirement();
+            return this;
+        }
+
+        ICreateRegistrationModifiers<TEntity> IRegistrationPostImageModifiers<ICreateRegistrationModifiers<TEntity>, TEntity>.RequirePostImage(params string[] fields)
+        {
+            AddPostImageRequirement(fields);
+            return this;
+        }
+
+        ICreateRegistrationModifiers<TEntity> IRegistrationPostImageModifiers<ICreateRegistrationModifiers<TEntity>, TEntity>.RequirePostImage(Expression<Func<TEntity, object>> anonymousTypeInitializer)
+        {
+            AddPostImageRequirement(anonymousTypeInitializer);
+            return this;
         }
     }
 }
