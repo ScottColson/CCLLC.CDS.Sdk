@@ -1,44 +1,20 @@
-﻿using Microsoft.Crm.Sdk.Messages;
-using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Query;
-using System;
-
-namespace CCLLC.CDS.Sdk
+﻿namespace CCLLC.CDS.Sdk.Registrations
 {
-    public class QueryEventRegistration<E> : IPluginEventRegistration where E : Entity, new()
+    using System;
+    using Microsoft.Crm.Sdk.Messages;
+    using Microsoft.Xrm.Sdk;
+    using Microsoft.Xrm.Sdk.Query;
+
+    public class QueryEventRegistration<TEntity> : EventRegistration, IQueryRegistrationModifiers<TEntity> where TEntity : Entity, new()
     {
-        private string handlerId;
-        /// <summary>
-        /// Identifying name for the handler. Used in logging events.
-        /// </summary>
-        public string HandlerId
-        {
-            get { return handlerId ?? string.Empty; }
-            set { handlerId = value; }
-        }
-
-        /// <summary>
-        /// Execution pipeline stage that the plugin should be registered against.
-        /// </summary>
-        public ePluginStage Stage { get; set; }
-        /// <summary>
-        /// Logical name of the entity that the plugin should be registered against. Leave 'null' to register against all entities.
-        /// </summary>
-        public string EntityName { get; }
-        /// <summary>
-        /// Name of the message that the plugin should be triggered off of.
-        /// </summary>
-        public string MessageName { get; }
-
         public Action<ICDSPluginExecutionContext, QueryExpression, EntityCollection> PluginAction { get; set; }
 
-        public QueryEventRegistration()
+        public QueryEventRegistration() :
+            base(new TEntity().LogicalName, MessageNames.RetrieveMultiple)
         {
-            EntityName = new E().LogicalName;
-            MessageName = MessageNames.RetrieveMultiple;
         }
 
-        public void Invoke(ICDSPluginExecutionContext executionContext)
+        protected override void InvokeRegistration(ICDSPluginExecutionContext executionContext)
         {
             _ = executionContext.InputParameters["Query"] ?? 
                 throw new ArgumentNullException("RetrieveMultiple is missing required Query input parameter.");
@@ -72,6 +48,11 @@ namespace CCLLC.CDS.Sdk
             {
                 PluginAction.Invoke(executionContext, qryExpression, null);
             }          
+        }
+
+        IQueryRegistrationModifiers<TEntity> IQueryRegistrationModifiers<TEntity>.ExecuteIf(Action<IQueryExecutionFilter> expression)
+        {
+            throw new NotImplementedException();
         }
     }
 }

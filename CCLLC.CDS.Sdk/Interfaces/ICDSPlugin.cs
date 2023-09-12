@@ -1,10 +1,10 @@
-﻿using System;
-using CCLLC.Core;
-using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Query;
-
-namespace CCLLC.CDS.Sdk
+﻿namespace CCLLC.CDS.Sdk
 {
+    using System;
+    using CCLLC.Core;
+    using Microsoft.Xrm.Sdk;
+    using Microsoft.Xrm.Sdk.Query;
+
     /// <summary>
     /// Enhanced plugin definition for creating CDS plugins that provides support for dependency injection.
     /// </summary>
@@ -32,23 +32,22 @@ namespace CCLLC.CDS.Sdk
         /// <param name="handlerId">An ad that can be passed through to telemetry when used.</param>
         void RegisterEventHandler(string entityName, string messageName, ePluginStage stage, Action<ICDSPluginExecutionContext> handler, string handlerId = "");
 
-        void RegisterCreateHandler<E>(ePluginStage stage, Action<ICDSPluginExecutionContext, E, EntityReference> handler, string handlerId = "") where E : Entity, new();
+        ICreateRegistrationModifiers<TEntity> RegisterCreateHandler<TEntity>(ePluginStage stage, Action<ICDSPluginExecutionContext, TEntity, EntityReference> handler, string handlerId = "") where TEntity : Entity, new();
 
-        void RegisterUpdateHandler<E>(ePluginStage stage, Action<ICDSPluginExecutionContext, E> handler, string handlerId = "") where E : Entity, new();
+        IUpdateRegistrationModifiers<TEntity> RegisterUpdateHandler<TEntity>(ePluginStage stage, Action<ICDSPluginExecutionContext, TEntity> handler, string handlerId = "") where TEntity : Entity, new();
 
-        void RegisterDeleteHandler<E>(ePluginStage stage, Action<ICDSPluginExecutionContext, EntityReference> handler, string handlerId = "") where E : Entity, new();
+        IDeleteRegistrationModifiers<TEntity> RegisterDeleteHandler<TEntity>(ePluginStage stage, Action<ICDSPluginExecutionContext, EntityReference> handler, string handlerId = "") where TEntity : Entity, new();
 
-        void RegisterRetrieveHandler<E>(ePluginStage stage, Action<ICDSPluginExecutionContext, EntityReference, ColumnSet, E> handler, string handlerId = "") where E : Entity, new();
+        IRetrieveRegistrationModifiers<TEntity> RegisterRetrieveHandler<TEntity>(ePluginStage stage, Action<ICDSPluginExecutionContext, EntityReference, ColumnSet, TEntity> handler, string handlerId = "") where TEntity : Entity, new();
 
-        void RegisterQueryHandler<E>(ePluginStage stage, Action<ICDSPluginExecutionContext, QueryExpression, EntityCollection> handler, string handlerId = "") where E : Entity, new();
+        IQueryRegistrationModifiers<TEntity> RegisterQueryHandler<TEntity>(ePluginStage stage, Action<ICDSPluginExecutionContext, QueryExpression, EntityCollection> handler, string handlerId = "") where TEntity : Entity, new();
 
-        void RegisterActionHandler<TRequest, TResponse>(ePluginStage stage, Action<ICDSPluginExecutionContext, TRequest, TResponse> handler, string handlerId = "") 
+        IActionRegistrationModifiers<TRequest> RegisterActionHandler<TRequest, TResponse>(ePluginStage stage, Action<ICDSPluginExecutionContext, TRequest, TResponse> handler, string handlerId = "") 
             where TRequest : OrganizationRequest, new() 
             where TResponse : OrganizationResponse, new();
 
-        void RegisterApiHandler<TRequest, TResponse>(Action<ICDSPluginExecutionContext, TRequest, TResponse> handler, string handlerId = "")
+        IApiRegistrationModifiers<TRequest> RegisterApiHandler<TRequest, TResponse>(Action<ICDSPluginExecutionContext, TRequest, TResponse> handler, string handlerId = "")
             where TRequest : OrganizationRequest, new()
             where TResponse : OrganizationResponse, new();
-
     }
 }

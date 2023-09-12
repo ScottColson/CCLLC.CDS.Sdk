@@ -1,9 +1,14 @@
-﻿using System;
+﻿namespace CCLLC.CDS.Sdk.Registrations
+{
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.Xrm.Sdk;
 
-namespace CCLLC.CDS.Sdk
-{    
+    
+
     public class PluginEventRegistration : IPluginEventRegistration
     {
+        
         private string handlerId;
         /// <summary>
         /// Identifying name for the handler. Used in logging events.
@@ -29,7 +34,7 @@ namespace CCLLC.CDS.Sdk
         /// <summary>
         /// Method that should be executed when the conditions of the Plugin Event have been met.
         /// </summary>
-        public Action<ICDSPluginExecutionContext> PluginAction  { get; set; }
+        public Action<ICDSPluginExecutionContext> PluginAction { get; set; }
 
         public void Invoke(ICDSPluginExecutionContext executionContext)
         {
