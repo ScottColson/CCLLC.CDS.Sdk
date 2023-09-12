@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Microsoft.Xrm.Sdk;
     using Microsoft.Xrm.Sdk.Query;
 
     public partial class CDSSecurity
@@ -50,7 +51,7 @@
             if (roles.Contains("*"))
             {
                 return true;
-            }            
+            }
 
             var assingedRoles = GetAssignedSecurityRolesForUser(userId, cacheTimeout);
 
@@ -66,14 +67,14 @@
 
             throw new NotImplementedException();
         }
-                
+
         private IDictionary<Guid, string> GetAssignedSecurityRolesForUser(Guid userId, TimeSpan? cacheTimeout)
         {
             var cacheKey = $"{USERROLE_CACHE_KEY_BASE}.{userId}";
 
-            if(Cache != null && cacheTimeout != null && Cache.Exists(cacheKey))
+            if (Cache != null && cacheTimeout != null && Cache.Exists(cacheKey))
             {
-                return Cache.Get<IDictionary<Guid,string>>(cacheKey);
+                return Cache.Get<IDictionary<Guid, string>>(cacheKey);
             }
 
             IDictionary<Guid, string> assignedRoles = new Dictionary<Guid, string>();
@@ -83,7 +84,7 @@
             var qryDirectUserRoles = new QueryExpression
             {
                 EntityName = "role",
-                ColumnSet = new ColumnSet(new string[] { "name" }),
+                ColumnSet = new ColumnSet(new string[] { "name", "parentrootroleid" }),
 
                 LinkEntities = {
                     new LinkEntity
@@ -109,7 +110,10 @@
             var userRoles = this.OrganizationService.RetrieveMultiple(qryDirectUserRoles);
             foreach (var r in userRoles.Entities)
             {
-                assignedRoles.Add(r.Id, r.GetAttributeValue<string>("name"));
+                var roleName = r.GetAttributeValue<string>("name");
+                var rootRoleId = r.GetAttributeValue<EntityReference>("parentrootroleid");
+
+                assignedRoles.Add(rootRoleId.Id, roleName);
             }
 
             #endregion
@@ -119,7 +123,7 @@
             var qryRolesByTeam = new QueryExpression
             {
                 EntityName = "role",
-                ColumnSet = new ColumnSet(new string[] { "name" }),
+                ColumnSet = new ColumnSet(new string[] { "name", "parentrootroleid" }),
 
                 LinkEntities =
                 {
@@ -157,9 +161,12 @@
             var userTeamRoles = this.OrganizationService.RetrieveMultiple(qryRolesByTeam);
             foreach (var r in userTeamRoles.Entities)
             {
-                if (assignedRoles.ContainsKey(r.Id) == false)
+                var roleName = r.GetAttributeValue<string>("name");
+                var rootRoleId = r.GetAttributeValue<EntityReference>("parentrootroleid");
+
+                if (assignedRoles.ContainsKey(rootRoleId.Id) == false)
                 {
-                    assignedRoles.Add(r.Id, r.GetAttributeValue<string>("name"));
+                    assignedRoles.Add(rootRoleId.Id, roleName);
                 }
             }
 
