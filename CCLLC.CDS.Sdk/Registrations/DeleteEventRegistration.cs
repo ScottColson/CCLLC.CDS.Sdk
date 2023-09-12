@@ -1,45 +1,44 @@
-﻿using Microsoft.Xrm.Sdk;
-using System;
-
-namespace CCLLC.CDS.Sdk
+﻿namespace CCLLC.CDS.Sdk.Registrations
 {
-    public class DeleteEventRegistration<E> : IPluginEventRegistration where E : Entity, new()
-    {
-        private string handlerId;
-        /// <summary>
-        /// Identifying name for the handler. Used in logging events.
-        /// </summary>
-        public string HandlerId
-        {
-            get { return handlerId ?? string.Empty; }
-            set { handlerId = value; }
-        }
+    using System;
+    using System.Linq.Expressions;
+    using Microsoft.Xrm.Sdk;
 
-        /// <summary>
-        /// Execution pipeline stage that the plugin should be registered against.
-        /// </summary>
-        public ePluginStage Stage { get; set; }
-        /// <summary>
-        /// Logical name of the entity that the plugin should be registered against. Leave 'null' to register against all entities.
-        /// </summary>
-        public string EntityName { get; }
-        /// <summary>
-        /// Name of the message that the plugin should be triggered off of.
-        /// </summary>
-        public string MessageName { get; }
-
+    public class DeleteEventRegistration<TEntity> : EventRegistration, IDeleteRegistrationModifiers<TEntity>, IPluginEventRegistration where TEntity : Entity, new()
+    {        
         public Action<ICDSPluginExecutionContext, EntityReference> PluginAction { get; set; }
 
-        public DeleteEventRegistration()
-        {
-            EntityName = new E().LogicalName;
-            MessageName = MessageNames.Delete;
-        }
+        public DeleteEventRegistration() :
+            base(new TEntity().LogicalName, MessageNames.Delete)
+        { }
 
-        public void Invoke(ICDSPluginExecutionContext executionContext)
+        protected override void InvokeRegistration(ICDSPluginExecutionContext executionContext)
         {
             var target = executionContext.TargetReference;
             PluginAction.Invoke(executionContext, target);
+        }
+
+        IDeleteRegistrationModifiers<TEntity> IDeleteRegistrationModifiers<TEntity>.ExecuteIf(Action<IDeleteExecutionFilter> expression)
+        {
+            throw new NotImplementedException("The ExecuteIf registration modifier is not implemented.");
+        }
+
+        IDeleteRegistrationModifiers<TEntity> IRegistrationPreImageModifiers<IDeleteRegistrationModifiers<TEntity>, TEntity>.RequirePreImage()
+        {
+            AddPreImageRequirement();
+            return this;
+        }
+
+        IDeleteRegistrationModifiers<TEntity> IRegistrationPreImageModifiers<IDeleteRegistrationModifiers<TEntity>, TEntity>.RequirePreImage(params string[] fields)
+        {
+            AddPreImageRequirement(fields);
+            return this;
+        }
+
+        IDeleteRegistrationModifiers<TEntity> IRegistrationPreImageModifiers<IDeleteRegistrationModifiers<TEntity>, TEntity>.RequirePreImage(Expression<Func<TEntity, object>> anonymousTypeInitializer)
+        {
+            AddPreImageRequirement(anonymousTypeInitializer);
+            return this;
         }
     }
 }

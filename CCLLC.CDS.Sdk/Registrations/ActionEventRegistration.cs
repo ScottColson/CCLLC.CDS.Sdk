@@ -1,44 +1,20 @@
-﻿using Microsoft.Xrm.Sdk;
-using System;
-
-namespace CCLLC.CDS.Sdk
+﻿namespace CCLLC.CDS.Sdk.Registrations
 {
-    public class ActionEventRegistration<TRequest,TResponse> : IPluginEventRegistration 
+    using System;
+    using Microsoft.Xrm.Sdk;    
+
+    public class ActionEventRegistration<TRequest,TResponse> : EventRegistration, IActionRegistrationModifiers<TRequest> 
         where TRequest : OrganizationRequest, new()
         where TResponse : OrganizationResponse, new()
     {
-        private string handlerId;
-        /// <summary>
-        /// Identifying name for the handler. Used in logging events.
-        /// </summary>
-        public string HandlerId
-        {
-            get { return handlerId ?? string.Empty; }
-            set { handlerId = value; }
-        }
-
-        /// <summary>
-        /// Execution pipeline stage that the plugin should be registered against.
-        /// </summary>
-        public ePluginStage Stage { get; set; }
-        /// <summary>
-        /// Logical name of the entity that the plugin should be registered against. Leave 'null' to register against all entities.
-        /// </summary>
-        public string EntityName { get; }
-        /// <summary>
-        /// Name of the message that the plugin should be triggered off of.
-        /// </summary>
-        public string MessageName { get; }
-
         public Action<ICDSPluginExecutionContext, TRequest, TResponse> PluginAction { get; set; }
 
-        public ActionEventRegistration()
+        public ActionEventRegistration() :
+            base(null, new TRequest().RequestName)
         {            
-            EntityName = null;
-            MessageName = new TRequest().RequestName;
         }
 
-        public void Invoke(ICDSPluginExecutionContext executionContext)
+        protected override void InvokeRegistration(ICDSPluginExecutionContext executionContext)
         {
             var request = new TRequest()
             {
@@ -58,6 +34,11 @@ namespace CCLLC.CDS.Sdk
             {
                 PluginAction.Invoke(executionContext, request, null);
             }          
+        }
+
+        IActionRegistrationModifiers<TRequest> IActionRegistrationModifiers<TRequest>.ExecuteIf(Action<IActionExecutionContextFilter<TRequest>> expression)
+        {
+            throw new NotImplementedException();
         }
     }
 }
