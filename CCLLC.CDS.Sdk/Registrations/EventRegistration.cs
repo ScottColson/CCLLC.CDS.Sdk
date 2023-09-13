@@ -87,7 +87,12 @@
             }
         }
 
-        protected void AddPreImageRequirement(params string[] fieldNames)
+        protected void AddExecutionFilter(IExecutionFilter executionFilter)
+        {
+            ExecutionContextFilters.Add(executionFilter);
+        }
+
+        public void AddPreImageRequirement(params string[] fieldNames)
         {
             if (fieldNames.Length == 0)
             {
@@ -102,13 +107,13 @@
             }
         }
 
-        protected void AddPreImageRequirement<TEntity>(Expression<Func<TEntity, object>> anonymousTypeInitializer) where TEntity : Entity
+        public void AddPreImageRequirement<TEntity>(Expression<Func<TEntity, object>> anonymousTypeInitializer) where TEntity : Entity
         {
             var fields = anonymousTypeInitializer.GetAttributeNamesArray();
             AddPreImageRequirement(fields);
         }
 
-        protected void AddPostImageRequirement(params string[] fieldNames)
+        public void AddPostImageRequirement(params string[] fieldNames)
         {
             if (fieldNames.Length == 0)
             {
@@ -123,7 +128,7 @@
             }
         }
 
-        protected void AddPostImageRequirement<TEntity>(Expression<Func<TEntity, object>> anonymousTypeInitializer) where TEntity : Entity
+        public void AddPostImageRequirement<TEntity>(Expression<Func<TEntity, object>> anonymousTypeInitializer) where TEntity : Entity
         {
             var fields = anonymousTypeInitializer.GetAttributeNamesArray();
             AddPostImageRequirement(fields);

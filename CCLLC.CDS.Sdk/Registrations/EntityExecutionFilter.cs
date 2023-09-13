@@ -34,7 +34,7 @@
         public TParent ContainsAny(Expression<Func<TEntity, object>> anonymousTypeInitializer)
         {
             var fields = anonymousTypeInitializer.GetAttributeNamesArray();
-            return (TParent)ThisFilter;
+            return ContainsAny(fields);
         }
 
         public TParent HasStatus<TStatus>(params TStatus[] status) where TStatus : Enum

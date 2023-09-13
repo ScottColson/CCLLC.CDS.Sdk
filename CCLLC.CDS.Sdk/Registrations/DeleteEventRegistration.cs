@@ -18,24 +18,29 @@
             PluginAction.Invoke(executionContext, target);
         }
 
-        IDeleteRegistrationModifiers<TEntity> IDeleteRegistrationModifiers<TEntity>.ExecuteIf(Action<IDeleteExecutionFilter> expression)
+        public IDeleteRegistrationModifiers<TEntity> ExecuteIf(Action<IDeleteExecutionFilter> expression)
         {
-            throw new NotImplementedException("The ExecuteIf registration modifier is not implemented.");
+            _ = expression ?? throw new ArgumentNullException(nameof(expression));
+
+            var executionFilter = new DeleteExecutionFilter<TEntity>();
+            expression(executionFilter);
+            AddExecutionFilter(executionFilter);
+            return this;
         }
 
-        IDeleteRegistrationModifiers<TEntity> IRegistrationPreImageModifiers<IDeleteRegistrationModifiers<TEntity>, TEntity>.RequirePreImage()
+        public IDeleteRegistrationModifiers<TEntity> RequirePreImage()
         {
             AddPreImageRequirement();
             return this;
         }
 
-        IDeleteRegistrationModifiers<TEntity> IRegistrationPreImageModifiers<IDeleteRegistrationModifiers<TEntity>, TEntity>.RequirePreImage(params string[] fields)
+        public IDeleteRegistrationModifiers<TEntity> RequirePreImage(params string[] fields)
         {
             AddPreImageRequirement(fields);
             return this;
         }
 
-        IDeleteRegistrationModifiers<TEntity> IRegistrationPreImageModifiers<IDeleteRegistrationModifiers<TEntity>, TEntity>.RequirePreImage(Expression<Func<TEntity, object>> anonymousTypeInitializer)
+        public IDeleteRegistrationModifiers<TEntity> RequirePreImage(Expression<Func<TEntity, object>> anonymousTypeInitializer)
         {
             AddPreImageRequirement(anonymousTypeInitializer);
             return this;

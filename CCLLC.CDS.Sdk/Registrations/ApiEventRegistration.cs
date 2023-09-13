@@ -28,9 +28,14 @@
 
         }
 
-        IApiRegistrationModifiers<TRequest> IApiRegistrationModifiers<TRequest>.ExecuteIf(Action<IApiExecutionContextFilter<TRequest>> expression)
+        public IApiRegistrationModifiers<TRequest> ExecuteIf(Action<IApiExecutionContextFilter<TRequest>> expression)
         {
-            throw new NotImplementedException();
+            _ = expression ?? throw new ArgumentNullException(nameof(expression));
+
+            var executionFilter = new ApiExecutionFilter<TRequest>();
+            expression(executionFilter);
+            AddExecutionFilter(executionFilter);
+            return this;
         }
     }
 }

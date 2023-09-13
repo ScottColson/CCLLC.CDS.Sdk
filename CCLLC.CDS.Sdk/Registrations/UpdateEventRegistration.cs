@@ -4,58 +4,63 @@
     using System.Linq.Expressions;
     using Microsoft.Xrm.Sdk;
 
-    public class UpdateEventRegistration<E> : EventRegistration, IUpdateRegistrationModifiers<E> where E : Entity, new()
+    public class UpdateEventRegistration<TEntity> : EventRegistration, IUpdateRegistrationModifiers<TEntity> where TEntity : Entity, new()
     {        
 
-        public Action<ICDSPluginExecutionContext, E> PluginAction { get; set; }
+        public Action<ICDSPluginExecutionContext, TEntity> PluginAction { get; set; }
 
         public UpdateEventRegistration() 
-            : base(new E().LogicalName, MessageNames.Update)
+            : base(new TEntity().LogicalName, MessageNames.Update)
         {
         }
 
         protected override void InvokeRegistration(ICDSPluginExecutionContext executionContext)
         {
-            E target = executionContext.TargetEntity.ToEntity<E>();
+            TEntity target = executionContext.TargetEntity.ToEntity<TEntity>();
             PluginAction.Invoke(executionContext, target);
         }
 
-        IUpdateRegistrationModifiers<E> IUpdateRegistrationModifiers<E>.ExecuteIf(Action<IUpdateExecutionFilter<E>> expression)
+        public IUpdateRegistrationModifiers<TEntity> ExecuteIf(Action<IUpdateExecutionFilter<TEntity>> expression)
         {
-            throw new NotImplementedException("The ExecuteIf registration modifier is not implemented.");
+            _ = expression ?? throw new ArgumentNullException(nameof(expression));
+
+            var executionFilter = new UpdateExecutionFilter<TEntity>();
+            expression(executionFilter);
+            AddExecutionFilter(executionFilter);
+            return this;
         }
 
-        IUpdateRegistrationModifiers<E> IRegistrationPreImageModifiers<IUpdateRegistrationModifiers<E>, E>.RequirePreImage()
+        public IUpdateRegistrationModifiers<TEntity> RequirePreImage()
         {
             AddPreImageRequirement();
             return this;
         }
 
-        IUpdateRegistrationModifiers<E> IRegistrationPreImageModifiers<IUpdateRegistrationModifiers<E>, E>.RequirePreImage(params string[] fields)
+        public IUpdateRegistrationModifiers<TEntity> RequirePreImage(params string[] fields)
         {
             AddPreImageRequirement(fields);
             return this;
         }
 
-        IUpdateRegistrationModifiers<E> IRegistrationPreImageModifiers<IUpdateRegistrationModifiers<E>, E>.RequirePreImage(Expression<Func<E, object>> anonymousTypeInitializer)
+        public IUpdateRegistrationModifiers<TEntity> RequirePreImage(Expression<Func<TEntity, object>> anonymousTypeInitializer)
         {
             AddPreImageRequirement(anonymousTypeInitializer);
             return this;
         }
 
-        IUpdateRegistrationModifiers<E> IRegistrationPostImageModifiers<IUpdateRegistrationModifiers<E>, E>.RequirePostImage()
+        public IUpdateRegistrationModifiers<TEntity> RequirePostImage()
         {
             AddPostImageRequirement();
             return this;
         }
 
-        IUpdateRegistrationModifiers<E> IRegistrationPostImageModifiers<IUpdateRegistrationModifiers<E>, E>.RequirePostImage(params string[] fields)
+        public IUpdateRegistrationModifiers<TEntity> RequirePostImage(params string[] fields)
         {
             AddPostImageRequirement(fields);
             return this;
         }
 
-        IUpdateRegistrationModifiers<E> IRegistrationPostImageModifiers<IUpdateRegistrationModifiers<E>, E>.RequirePostImage(Expression<Func<E, object>> anonymousTypeInitializer)
+        public IUpdateRegistrationModifiers<TEntity> RequirePostImage(Expression<Func<TEntity, object>> anonymousTypeInitializer)
         {
             AddPostImageRequirement(anonymousTypeInitializer);
             return this;

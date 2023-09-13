@@ -52,7 +52,12 @@
 
         IQueryRegistrationModifiers<TEntity> IQueryRegistrationModifiers<TEntity>.ExecuteIf(Action<IQueryExecutionFilter> expression)
         {
-            throw new NotImplementedException();
+            _ = expression ?? throw new ArgumentNullException(nameof(expression));
+
+            var executionFilter = new QueryExecutionFilter();
+            expression(executionFilter);
+            AddExecutionFilter(executionFilter);
+            return this;
         }
     }
 }
