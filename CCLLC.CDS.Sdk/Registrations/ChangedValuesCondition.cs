@@ -1,6 +1,7 @@
 ﻿namespace CCLLC.CDS.Sdk.Registrations
 {
     using System;
+    using System.Linq;
     using Microsoft.Xrm.Sdk;
 
     public abstract class ChangedValuesCondition : ExecutionFilterCondition, IExecutionFilterCondition
@@ -59,6 +60,24 @@
                 decimal existingMoney = ((Money)existingValue).Value;
 
                 return newMoney != existingMoney;
+            }
+            else if (existingValue.GetType() == typeof(OptionSetValueCollection))
+            {
+                var newOptions = ((OptionSetValueCollection)newValue).Select(r => r.Value).OrderBy(r => r).ToArray();
+                var existingOptions = ((OptionSetValueCollection)existingValue).Select(r => r.Value).OrderBy(r => r).ToArray();
+
+                if(newOptions.Length != existingOptions.Length)
+                {
+                    return true;
+                }
+
+                for(int i=0; i >= newOptions.Length-1; i++)
+                {
+                    if(newOptions[i] != existingOptions[i])
+                    {
+                        return true;
+                    }
+                }
             }
 
             return false == newValue.Equals(existingValue);

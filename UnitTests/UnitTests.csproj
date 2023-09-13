@@ -172,6 +172,7 @@
     <Compile Include="TestPluginBase.cs" />
     <Compile Include="RequirePostImageTests.cs" />
     <Compile Include="FilterUserConditionTests.cs" />
+    <Compile Include="TargetContainsConditionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

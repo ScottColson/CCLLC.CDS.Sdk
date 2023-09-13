@@ -6,24 +6,30 @@
 
     public class UpdateExecutionFilter<TEntity> : EntityExecutionFilter<IUpdateExecutionFilter<TEntity>, TEntity>, IUpdateExecutionFilter<TEntity> where TEntity : Entity, new()
     {
-        public UpdateExecutionFilter()
-            : base() { }
+        private IUpdateRegistrationModifiers<TEntity> RegistrationModifier { get; }
+        public UpdateExecutionFilter(IUpdateRegistrationModifiers<TEntity> registrationModifier)
+            : base() 
+        {
+            RegistrationModifier = registrationModifier;
+        }
 
         public IUpdateExecutionFilter<TEntity> ChangedAll(params string[] fields)
         {
+            RegistrationModifier.RequirePreImage(fields);
             var condition = new ChangedAllValuesCondition(fields);
             AddCondition(condition);
             return this;
         }
 
         public IUpdateExecutionFilter<TEntity> ChangedAll(Expression<Func<TEntity, object>> anonymousTypeInitializer)
-        {
+        {           
             var fields = anonymousTypeInitializer.GetAttributeNamesArray();
             return ChangedAll(fields);
         }
 
         public IUpdateExecutionFilter<TEntity> ChangedAny(params string[] fields)
         {
+            RegistrationModifier.RequirePreImage(fields);
             var condition = new ChangedAnyValuesCondition(fields);
             AddCondition(condition);
             return this;

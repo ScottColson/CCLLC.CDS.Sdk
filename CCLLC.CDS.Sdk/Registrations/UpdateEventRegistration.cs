@@ -24,7 +24,7 @@
         {
             _ = expression ?? throw new ArgumentNullException(nameof(expression));
 
-            var executionFilter = new UpdateExecutionFilter<TEntity>();
+            var executionFilter = new UpdateExecutionFilter<TEntity>(this);
             expression(executionFilter);
             AddExecutionFilter(executionFilter);
             return this;
