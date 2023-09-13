@@ -15,7 +15,7 @@
         {
             var condition = new ContainsAllFilterCondition(fields);
             AddCondition(condition);
-            return (TParent)ThisFilter;      
+            return (TParent)(object)this;      
         }
 
         public TParent ContainsAll(Expression<Func<TEntity, object>> anonymousTypeInitializer)
@@ -28,7 +28,7 @@
         {
             var condition = new ContainsAnyFilterCondition(fields);
             AddCondition(condition);
-            return (TParent)ThisFilter;
+            return (TParent)(object)this;
         }
 
         public TParent ContainsAny(Expression<Func<TEntity, object>> anonymousTypeInitializer)
@@ -64,7 +64,5 @@
             AddCondition(condition);
             return condition;
         }
-
-        
     }
 }

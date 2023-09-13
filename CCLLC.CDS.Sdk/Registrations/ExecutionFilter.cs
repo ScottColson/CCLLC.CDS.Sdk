@@ -12,8 +12,6 @@
 
         private IList<IExecutionFilterCondition> Conditions { get; } = new List<IExecutionFilterCondition>();
 
-        protected IExecutionFilter<TParent> ThisFilter => this;
-
         protected void AddCondition(IExecutionFilterCondition condition)
         {
             if (invertNextCondition)
@@ -28,19 +26,19 @@
         public TParent Not()
         {
             invertNextCondition = !invertNextCondition;
-            return (TParent)ThisFilter;
+            return (TParent)(object)this;
         }
 
         public IExecutionFilterUserCondition<TParent> ExecutingUser() 
         {
-            var condition = new ExecutingUserCondition<TParent>((TParent)ThisFilter);
+            var condition = new ExecutingUserCondition<TParent>((TParent)(object)this);
             AddCondition(condition);
             return condition;
         }
         
         public IExecutionFilterUserCondition<TParent> InitiatingUser()
         {
-            var condition = new InitiatingUserCondition<TParent>((TParent)ThisFilter);
+            var condition = new InitiatingUserCondition<TParent>((TParent)(object)this);
             AddCondition(condition);
             return condition;
         }

@@ -109,6 +109,7 @@
     <Compile Include="Interfaces\IExecutionFilterUserCondition.cs" />
     <Compile Include="Registrations\ActionExecutionFilter.cs" />
     <Compile Include="Registrations\ApiExecutionFilter.cs" />
+    <Compile Include="Registrations\ChangedValuesCondition.cs" />
     <Compile Include="Registrations\ContainsFilterCondition.cs" />
     <Compile Include="Registrations\CreateExecutionFilter.cs" />
     <Compile Include="Registrations\DeleteExecutionFilter.cs" />

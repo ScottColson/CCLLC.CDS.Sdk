@@ -11,7 +11,9 @@
 
         public IUpdateExecutionFilter<TEntity> ChangedAll(params string[] fields)
         {
-            throw new NotImplementedException();
+            var condition = new ChangedAllValuesCondition(fields);
+            AddCondition(condition);
+            return this;
         }
 
         public IUpdateExecutionFilter<TEntity> ChangedAll(Expression<Func<TEntity, object>> anonymousTypeInitializer)
@@ -22,7 +24,9 @@
 
         public IUpdateExecutionFilter<TEntity> ChangedAny(params string[] fields)
         {
-            throw new NotImplementedException();
+            var condition = new ChangedAnyValuesCondition(fields);
+            AddCondition(condition);
+            return this;
         }
 
         public IUpdateExecutionFilter<TEntity> ChangedAny(Expression<Func<TEntity, object>> anonymousTypeInitializer)
