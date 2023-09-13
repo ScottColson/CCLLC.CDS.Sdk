@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCLLC.CDS.Sdk.Workflow.Inst
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.WorkflowActivity", "Sample.WorkflowActivity\Sample.WorkflowActivity.csproj", "{4AD479A2-0BB9-423D-94A5-BB79449C259C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{6B8213D1-8A2F-4E27-AF79-106FD44C12B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{4AD479A2-0BB9-423D-94A5-BB79449C259C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AD479A2-0BB9-423D-94A5-BB79449C259C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AD479A2-0BB9-423D-94A5-BB79449C259C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B8213D1-8A2F-4E27-AF79-106FD44C12B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B8213D1-8A2F-4E27-AF79-106FD44C12B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B8213D1-8A2F-4E27-AF79-106FD44C12B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B8213D1-8A2F-4E27-AF79-106FD44C12B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
