@@ -140,6 +140,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builders\TeamMemberBuilder.cs" />
     <Compile Include="Builders\AccountBuilder.cs" />
     <Compile Include="Builders\CrmEnvironmentBuilder.cs" />
     <Compile Include="Builders\EntityBuilder.cs" />
@@ -163,12 +164,14 @@
     <Compile Include="Proxies\contact.cs" />
     <Compile Include="Proxies\systemuser.cs" />
     <Compile Include="Proxies\team.cs" />
+    <Compile Include="Proxies\teammembership.cs" />
     <Compile Include="RequirePreImageTests.cs" />
     <Compile Include="TestCommon\TestCommon.cs" />
     <Compile Include="TestCommon\TestCommon_Teams.cs" />
     <Compile Include="TestCommon\TestCommon_Users.cs" />
     <Compile Include="TestPluginBase.cs" />
     <Compile Include="RequirePostImageTests.cs" />
+    <Compile Include="FilterUserConditionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -17,6 +17,7 @@
         public SystemUserBuilder WithName(string value)
         {
             Record.FirstName = value;
+            Record.LastName = " ";
             return this;
         }
 

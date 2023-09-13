@@ -12,7 +12,7 @@
 
         private IList<IExecutionFilterCondition> Conditions { get; } = new List<IExecutionFilterCondition>();
 
-        protected IExecutionFilter ThisFilter => this;
+        protected IExecutionFilter<TParent> ThisFilter => this;
 
         protected void AddCondition(IExecutionFilterCondition condition)
         {
@@ -33,16 +33,16 @@
 
         public IExecutionFilterUserCondition<TParent> ExecutingUser() 
         {
-            var condition = new ExecutingUserCondition<IExecutionFilter>(this);
+            var condition = new ExecutingUserCondition<TParent>((TParent)ThisFilter);
             AddCondition(condition);
-            return (IExecutionFilterUserCondition<TParent>)condition;
+            return condition;
         }
         
         public IExecutionFilterUserCondition<TParent> InitiatingUser()
         {
-            var condition = new InitiatingUserCondition<IExecutionFilter>(this);
+            var condition = new InitiatingUserCondition<TParent>((TParent)ThisFilter);
             AddCondition(condition);
-            return (IExecutionFilterUserCondition<TParent>)condition;
+            return condition;
         }
 
         public bool Test(ICDSPluginExecutionContext executionContext)
