@@ -33,6 +33,7 @@
         public UserCondition(TParent parent, bool useExecutingUser)
         {
             this.parent = parent;
+            isExecutingUserCondition = useExecutingUser;
         }
 
         TParent IExecutionFilterUserCondition<TParent>.EqualTo(params Guid[] userId)
@@ -102,7 +103,6 @@
                 return false;
             }
 
-
             var qryUsers = new QueryExpression
             {
                 EntityName = "systemuser",
@@ -124,7 +124,7 @@
                 return false;
             }
 
-            foreach(var name in requiredRoleNames)
+            foreach(var name in requiredUserNames)
             {
                 if (users[0].GetAttributeValue<string>("fullname").ToLower() == name.ToLower())
                 {
