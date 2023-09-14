@@ -154,16 +154,51 @@
 
     public class FieldValueLikeTest : FieldValueTest
     {
-        private string[] likeValues = null;
+        private string[] testValues = null;
 
         public FieldValueLikeTest(string[] values)
         {
-            likeValues = values;
+            testValues = values;
         }
 
         public override bool Test(Entity image, string fieldName)
         {
-            throw new System.NotImplementedException("FieldValueLikeTest.Test is not implemented.");
+            if (fieldName is null
+                || image is null
+                || image.Contains(fieldName) != true
+                || testValues is null
+                || testValues.Length == 0)
+            {
+                return false;
+            }
+
+            string imageValue = image.GetAttributeValue<string>(fieldName);
+
+            if (string.IsNullOrEmpty(imageValue))
+            {
+                return false;
+            }
+
+            foreach (string testValue in testValues)
+            {
+                bool allPartsMatch = true;
+                string[] parts = testValue.Split('*');
+                foreach(var part in parts)
+                {
+                    if(false == imageValue.Contains(part))
+                    {
+                        allPartsMatch = false;
+                        break;
+                    }
+                }
+
+                if (allPartsMatch)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
