@@ -1,5 +1,7 @@
 ﻿namespace CCLLC.CDS.Sdk.Registrations
 {
+    public enum ImageType { Target = 1, PreImage = 2, CoalescedImage = 3 }
+
     public class TargetValueCondition<TParent> : FieldValueCondition<TParent>, IExecutionFilterValueCondition<TParent> where TParent : IExecutionFilter
     {
         public TargetValueCondition(IExecutionFilter parentFilter, string field) 
@@ -23,8 +25,6 @@
         {
         }
     }
-
-    public enum ImageType { Target=1, PreImage=2, CoalescedImage=3}
 
     public abstract class FieldValueCondition<TParent> : ExecutionFilterCondition, IExecutionFilterValueCondition<TParent> where TParent : IExecutionFilter
     {

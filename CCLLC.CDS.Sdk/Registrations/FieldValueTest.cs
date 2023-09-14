@@ -25,10 +25,15 @@
                 return false;
             }
 
+            if (image.Contains(fieldName) != true)
+            {
+                return false ^ invertResult;
+            }
+
             object imageValue = image[fieldName];
             bool isNull = imageValue is null;
 
-            return (invertResult == true) ? !isNull : isNull;
+            return isNull ^ invertResult;
         }
     }
 
@@ -52,66 +57,148 @@
                 || testValues.Length == 0)
             {
                 return false;
-            }            
-            
+            }
+
             T imageValue = image.GetAttributeValue<T>(fieldName);
-            bool areEqual = false;
 
             foreach (T testValue in testValues)
             {
                 if (typeof(T) == typeof(string)
                     && string.Compare(imageValue.ToString(), testValue.ToString(), true) == 0)
                 {
-                    areEqual = true;
-                    break;
+                    return true ^ invertResult;
                 }
                 else if (imageValue.Equals(testValue))
                 {
-                    areEqual = true;
-                    break;
+                    return true ^ invertResult;
                 }
             }
 
-            return (invertResult == true) ? !areEqual : areEqual;
+            return false ^ invertResult;
         }
     }
 
     public class FieldValueGreaterThanTest<T> : FieldValueTest
     {
+        T testValue;
+        bool testEquality = false;
+
         public FieldValueGreaterThanTest(T value, bool testEquality) : base()
         {
-            
+            testValue = value;
+            this.testEquality = testEquality;
         }
 
         public override bool Test(Entity image, string fieldName)
         {
-            throw new System.NotImplementedException();
+            if (image.Contains(fieldName) != true)
+            {
+                return false;
+            }
+
+            T imageValue = image.GetAttributeValue<T>(fieldName);
+
+            if (typeof(T) == typeof(string))
+            {
+                var position = string.Compare((string)(object)testValue, (string)(object)imageValue, true);
+
+                if (position > 0) return true;
+                if (testEquality && position == 0) return true;
+            }
+
+            if (typeof(T) == typeof(decimal) 
+                || typeof(T) == typeof(int))
+            {
+                if ((decimal)(object)imageValue > (decimal)(object)testValue) return true;
+                if (testEquality && (decimal)(object)imageValue == (decimal)(object)testValue) return true;
+            }
+
+            return false;
+
         }
     }
 
     public class FieldValueLessThanTest<T> : FieldValueTest
     {
+        T testValue;
+        bool testEquality = false;
+
         public FieldValueLessThanTest(T value, bool testEquality) : base()
         {
-
+            testValue = value;
+            this.testEquality = testEquality;
         }
 
         public override bool Test(Entity image, string fieldName)
         {
-            throw new System.NotImplementedException();
+            T imageValue = image.GetAttributeValue<T>(fieldName);
+
+            if (typeof(T) == typeof(string))
+            {
+                var position = string.Compare((string)(object)testValue, (string)(object)imageValue, true);
+
+                if (position < 0) return true;
+                if (testEquality && position == 0) return true;
+            }
+
+            if (typeof(T) == typeof(decimal)
+                || typeof(T) == typeof(int))
+            {
+                if ((decimal)(object)imageValue < (decimal)(object)testValue) return true;
+                if (testEquality && (decimal)(object)imageValue == (decimal)(object)testValue) return true;
+            }
+
+            return false;
         }
     }
 
     public class FieldValueLikeTest : FieldValueTest
     {
+        private string[] testValues = null;
+
         public FieldValueLikeTest(string[] values)
         {
-
+            testValues = values;
         }
 
         public override bool Test(Entity image, string fieldName)
         {
-            throw new System.NotImplementedException();
+            if (fieldName is null
+                || image is null
+                || image.Contains(fieldName) != true
+                || testValues is null
+                || testValues.Length == 0)
+            {
+                return false;
+            }
+
+            string imageValue = image.GetAttributeValue<string>(fieldName);
+
+            if (string.IsNullOrEmpty(imageValue))
+            {
+                return false;
+            }
+
+            foreach (string testValue in testValues)
+            {
+                bool allPartsMatch = true;
+                string[] parts = testValue.Split('*');
+                foreach(var part in parts)
+                {
+                    if(false == imageValue.Contains(part))
+                    {
+                        allPartsMatch = false;
+                        break;
+                    }
+                }
+
+                if (allPartsMatch)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

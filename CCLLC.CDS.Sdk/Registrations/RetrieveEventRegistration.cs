@@ -30,9 +30,14 @@
             }          
         }
 
-        IRetrieveRegistrationModifiers<E> IRetrieveRegistrationModifiers<E>.ExecuteIf(Action<IRetrieveExecutionFilter> expression)
+        public IRetrieveRegistrationModifiers<E> ExecuteIf(Action<IRetrieveExecutionFilter> expression)
         {
-            throw new NotImplementedException();
+            _ = expression ?? throw new ArgumentNullException(nameof(expression));
+
+            var executionFilter = new RetrieveExecutionFilter();
+            expression(executionFilter);
+            AddExecutionFilter(executionFilter);
+            return this;
         }
     }
 }

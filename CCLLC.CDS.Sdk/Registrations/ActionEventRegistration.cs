@@ -36,9 +36,14 @@
             }          
         }
 
-        IActionRegistrationModifiers<TRequest> IActionRegistrationModifiers<TRequest>.ExecuteIf(Action<IActionExecutionContextFilter<TRequest>> expression)
+        public IActionRegistrationModifiers<TRequest> ExecuteIf(Action<IActionExecutionContextFilter<TRequest>> expression)
         {
-            throw new NotImplementedException();
+            _ = expression ?? throw new ArgumentNullException(nameof(expression));
+
+            var executionFilter = new ActionExecutionFilter<TRequest>();
+            expression(executionFilter);
+            AddExecutionFilter(executionFilter);
+            return this;
         }
     }
 }

@@ -29,24 +29,29 @@
             }          
         }
 
-        ICreateRegistrationModifiers<TEntity> ICreateRegistrationModifiers<TEntity>.ExecuteIf(Action<ICreateExecutionFilter<TEntity>> expression)
+        public ICreateRegistrationModifiers<TEntity> ExecuteIf(Action<ICreateExecutionFilter<TEntity>> expression)
         {
-            throw new NotImplementedException("The ExecuteIf registration modifier is not implemented.");
-        }        
+            _ = expression ?? throw new ArgumentNullException(nameof(expression));
 
-        ICreateRegistrationModifiers<TEntity> IRegistrationPostImageModifiers<ICreateRegistrationModifiers<TEntity>, TEntity>.RequirePostImage()
+            var executionFilter = new CreateExecutionFilter<TEntity>();
+            expression(executionFilter);
+            AddExecutionFilter(executionFilter);
+            return this;
+        }
+
+        public ICreateRegistrationModifiers<TEntity> RequirePostImage()
         {
             AddPostImageRequirement();
             return this;
         }
 
-        ICreateRegistrationModifiers<TEntity> IRegistrationPostImageModifiers<ICreateRegistrationModifiers<TEntity>, TEntity>.RequirePostImage(params string[] fields)
+        public ICreateRegistrationModifiers<TEntity> RequirePostImage(params string[] fields)
         {
             AddPostImageRequirement(fields);
             return this;
         }
 
-        ICreateRegistrationModifiers<TEntity> IRegistrationPostImageModifiers<ICreateRegistrationModifiers<TEntity>, TEntity>.RequirePostImage(Expression<Func<TEntity, object>> anonymousTypeInitializer)
+        public ICreateRegistrationModifiers<TEntity> RequirePostImage(Expression<Func<TEntity, object>> anonymousTypeInitializer)
         {
             AddPostImageRequirement(anonymousTypeInitializer);
             return this;

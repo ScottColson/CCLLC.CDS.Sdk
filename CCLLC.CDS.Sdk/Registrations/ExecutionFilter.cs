@@ -1,6 +1,5 @@
 ﻿namespace CCLLC.CDS.Sdk.Registrations
 {
-    using System;
     using System.Collections.Generic;
 
     public abstract class ExecutionFilter<TParent> : IExecutionFilter, IExecutionFilter<TParent> where TParent : IExecutionFilter
@@ -12,8 +11,6 @@
         private bool invertNextCondition = false;
 
         private IList<IExecutionFilterCondition> Conditions { get; } = new List<IExecutionFilterCondition>();
-
-        protected IExecutionFilter ThisFilter => this;
 
         protected void AddCondition(IExecutionFilterCondition condition)
         {
@@ -29,18 +26,34 @@
         public TParent Not()
         {
             invertNextCondition = !invertNextCondition;
-            return (TParent)ThisFilter;
+            return (TParent)(object)this;
         }
 
-       
-        
-        public abstract IExecutionFilterUserCondition<TParent> ExecutingUser();
-        
-        public abstract IExecutionFilterUserCondition<TParent> InitiatingUser();
-
-        bool IExecutionFilter.Test(ICDSPluginExecutionContext executionContext)
+        public IExecutionFilterUserCondition<TParent> ExecutingUser() 
         {
-            throw new NotImplementedException();
+            var condition = new ExecutingUserCondition<TParent>((TParent)(object)this);
+            AddCondition(condition);
+            return condition;
+        }
+        
+        public IExecutionFilterUserCondition<TParent> InitiatingUser()
+        {
+            var condition = new InitiatingUserCondition<TParent>((TParent)(object)this);
+            AddCondition(condition);
+            return condition;
+        }
+
+        public bool Test(ICDSPluginExecutionContext executionContext)
+        {
+            foreach(var condition in Conditions)
+            {
+                if (false == condition.Test(executionContext))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

@@ -64,8 +64,6 @@
             }
 
             return false;
-
-            throw new NotImplementedException();
         }
 
         private IDictionary<Guid, string> GetAssignedSecurityRolesForUser(Guid userId, TimeSpan? cacheTimeout)
