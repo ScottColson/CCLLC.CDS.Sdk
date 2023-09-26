@@ -40,21 +40,18 @@
         public TParent HasStatus<TStatus>(params TStatus[] status) where TStatus : Enum
         {
             IExecutionFilterValueCondition<TParent> condition = IncomingValue("statuscode");
-            AddCondition(condition);
             return condition.IsEqualTo<TStatus>(status);
         }
 
         public TParent HasStatus(params int[] status)
         {
             IExecutionFilterValueCondition<TParent> condition = IncomingValue("statuscode");
-            AddCondition(condition);
             return condition.IsEqualTo<int>(status);
         }
 
         public TParent IsActive()
         {
             var condition = IncomingValue("statecode");
-            AddCondition(condition);
             return condition.IsEqualTo(0);
         }
 
